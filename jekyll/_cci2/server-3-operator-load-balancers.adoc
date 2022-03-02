@@ -36,3 +36,16 @@ NOTE: The Private load balancers option only works with installations on CircleC
 NOTE: If you are using Let's Encrypt TLS certificates, this box will not be visible as Let's Encrypt doesn't work with private installations. Uncheck the box for Let's Encrypt to make the Private load balancer option appear.
 
 If you are changing this setting after the initial deployment of CircleCI server, you may need to delete the old public load balancer so that Kubernetes will request a new load balancer with the new configuration.
+
+
+== Using ACM TLS Certificates
+
+If you have deployed your CircleCI Server instance on AWS, you may consider using [ACM](https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html) to manage your TLS certificates. You can follow the [ACM documentation](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html) for instructions on how to generate ACM certificates.
+
+Once your have generated your certificates, you can enabled ACM in your KOTS admin console under the Frontend section. You only need to check the ACM box, provide your ACM ARN and save your config.
+
+[WARNING]
+==== 
+Enabling ACM is a destructive change to your frontend service. The service will have to be regenerated to allow the use of your ACM certificates and so the associated loadbalancer will also be regenerated. 
+You will need to reroute your DNS records to the new loadbalancer once deployed.
+====
